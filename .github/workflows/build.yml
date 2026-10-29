@@ -8,21 +8,32 @@ on:
 
 jobs:
   build:
+    name: Build against ${{ matrix.target }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: Paper 1.21.11 (Java 21)
+            java-version: '21'
+            maven-args: ''
+          - target: Paper 26.3 API (Java 25; Java 21 bytecode)
+            java-version: '25'
+            maven-args: '-Dpaper26'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Set up Java 21
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '21'
+          java-version: ${{ matrix.java-version }}
           cache: maven
       - name: Build plugin
-        run: mvn --batch-mode --no-transfer-progress clean package
+        run: mvn --batch-mode --no-transfer-progress ${{ matrix.maven-args }} clean package
       - name: Upload plugin JAR
         uses: actions/upload-artifact@v4
         with:
-          name: FlipMoneyFormat
+          name: FlipMoneyFormat-${{ matrix.java-version }}-${{ strategy.job-index }}
           path: target/FlipMoneyFormat.jar
           if-no-files-found: error
