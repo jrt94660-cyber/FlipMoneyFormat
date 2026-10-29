@@ -1,0 +1,17 @@
+name: FlipMoneyFormat
+version: '1.0.0'
+main: dev.flip.moneyformat.FlipMoneyFormatPlugin
+api-version: '1.21'
+author: jrt94660-cyber
+description: Compact Vault money formatting with PlaceholderAPI support.
+website: https://github.com/jrt94660-cyber/FlipMoneyFormat
+softdepend: [Vault, PlaceholderAPI]
+commands:
+  flipmoneyformat:
+    description: Reload FlipMoneyFormat settings.
+    usage: /flipmoneyformat reload
+    aliases: [fmf]
+permissions:
+  flipmoneyformat.admin:
+    description: Allows reloading FlipMoneyFormat.
+    default: op
