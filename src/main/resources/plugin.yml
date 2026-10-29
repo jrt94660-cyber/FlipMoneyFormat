@@ -5,7 +5,8 @@ api-version: '1.21'
 author: jrt94660-cyber
 description: Compact Vault money formatting with PlaceholderAPI support.
 website: https://github.com/jrt94660-cyber/FlipMoneyFormat
-softdepend: [Vault, PlaceholderAPI]
+depend: [Vault]
+softdepend: [PlaceholderAPI]
 commands:
   flipmoneyformat:
     description: Reload FlipMoneyFormat settings.
