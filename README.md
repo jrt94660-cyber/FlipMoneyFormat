@@ -1,6 +1,6 @@
 # FlipMoneyFormat
 
-A compact money formatter for Vault economies, with PlaceholderAPI support. The default display is designed for SMP-style prices such as **$ 12.01k**.
+A compact money formatter for Vault economies, with PlaceholderAPI support. The default display is designed for SMP-style prices such as **$ 12.01K**.
 
 ## Features
 
@@ -8,6 +8,7 @@ A compact money formatter for Vault economies, with PlaceholderAPI support. The 
 - Delegates balance checks, deposits, withdrawals, bank operations, and all other Vault methods to your existing economy provider.
 - Adds PlaceholderAPI placeholders for your balance, another player's balance, and arbitrary amounts.
 - Configurable symbol, spacing, decimal precision, trailing-zero trimming, separators, and suffixes.
+- Uppercase compact suffixes by default: `K`, `M`, `B`, `T`, `Q`, `QQ`. Existing lowercase suffixes in old configs are automatically converted.
 - `/flipmoneyformat reload` (alias `/fmf reload`) reloads settings.
 - Shared release target is Java 21 bytecode, suitable for Paper 1.21.11 (Java 21) through Paper 26.3 (Java 25). CI compiles against both API generations.
 
@@ -30,8 +31,8 @@ Vault format wrapping works without PlaceholderAPI. Placeholder expansion requir
 
 | Placeholder | Result |
 |---|---|
-| `%flipmoneyformat_balance%` | Your compact balance including symbol, e.g. `$ 12.01k` |
-| `%flipmoneyformat_balance_short%` | Your compact balance without symbol, e.g. `12.01k` |
+| `%flipmoneyformat_balance%` | Your compact balance including symbol, e.g. `$ 12.01K` |
+| `%flipmoneyformat_balance_short%` | Your compact balance without symbol, e.g. `12.01K` |
 | `%flipmoneyformat_balance_full%` | Your full balance with grouping, e.g. `$ 12,010` |
 | `%flipmoneyformat_balance_raw%` | Plain, ungrouped balance number, e.g. `12010` |
 | `%flipmoneyformat_balance_number%` | Compact number without the symbol |
@@ -39,7 +40,7 @@ Vault format wrapping works without PlaceholderAPI. Placeholder expansion requir
 | `%flipmoneyformat_balance_short_<player>%` | Another player's compact balance without symbol |
 | `%flipmoneyformat_balance_full_<player>%` | Another player's full balance with symbol |
 | `%flipmoneyformat_balance_raw_<player>%` | Another player's plain balance number |
-| `%flipmoneyformat_format_<amount>%` | Format an amount with symbol, e.g. `%flipmoneyformat_format_12010%` -> `$ 12.01k` |
+| `%flipmoneyformat_format_<amount>%` | Format an amount with symbol, e.g. `%flipmoneyformat_format_12010%` -> `$ 12.01K` |
 | `%flipmoneyformat_formatshort_<amount>%` | Format a number without symbol |
 | `%flipmoneyformat_formatfull_<amount>%` | Full number with grouping and symbol |
 | `%flipmoneyformat_formatraw_<amount>%` | Plain number with no symbol or grouping |
@@ -57,14 +58,16 @@ format:
   decimal-places: 2
   trim-trailing-zeros: true
   abbreviate: true
-  suffixes: [k, m, b, t, q, qq]
+  uppercase-suffixes: true
+  suffixes: [K, M, B, T, Q, QQ]
   grouping-separator: ','
   decimal-separator: '.'
 ```
 
+- `uppercase-suffixes: true` converts the configured suffixes to uppercase, including suffixes in existing config files. Set it to `false` to keep the exact case you configure.
 - `vault-format-override: true` makes plugins that call Vault's `Economy#format(double)` use this format. Disable it if you only want PlaceholderAPI formatting.
 - This plugin does not replace the economy provider and does not change account balances; only rendered text changes.
-- Abbreviations are display-only: `12010` may display as `$ 12.01k`, while the underlying amount stays `12010`.
+- Abbreviations are display-only: `12010` may display as `$ 12.01K`, while the underlying amount stays `12010`.
 - A plugin that caches a Vault provider before this plugin wraps it may need a restart or a reload of its own economy integration.
 
 ## Commands and permission
