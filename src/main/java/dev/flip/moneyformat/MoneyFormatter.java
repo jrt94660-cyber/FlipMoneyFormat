@@ -26,13 +26,16 @@ public final class MoneyFormatter {
         this.decimalPlaces = Math.max(0, Math.min(6, config.getInt("format.decimal-places", 2)));
         this.trimTrailingZeros = config.getBoolean("format.trim-trailing-zeros", true);
         this.abbreviate = config.getBoolean("format.abbreviate", true);
+        boolean uppercaseSuffixes = config.getBoolean("format.uppercase-suffixes", true);
 
         List<String> configuredSuffixes = config.getStringList("format.suffixes");
         List<String> cleaned = new ArrayList<>();
         for (String suffix : configuredSuffixes) {
-            if (suffix != null && !suffix.isBlank()) cleaned.add(suffix);
+            if (suffix != null && !suffix.isBlank()) {
+                cleaned.add(uppercaseSuffixes ? suffix.toUpperCase(Locale.ROOT) : suffix);
+            }
         }
-        if (cleaned.isEmpty()) cleaned = List.of("k", "m", "b", "t", "q", "qq");
+        if (cleaned.isEmpty()) cleaned = List.of("K", "M", "B", "T", "Q", "QQ");
         this.suffixes = List.copyOf(cleaned);
         this.groupingSeparator = readSeparator(config.getString("format.grouping-separator", ","), ',');
         this.decimalSeparator = readSeparator(config.getString("format.decimal-separator", "."), '.');
