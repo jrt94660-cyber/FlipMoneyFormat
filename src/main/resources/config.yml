@@ -8,7 +8,7 @@ vault-format-override: true
 format:
   # Put your currency symbol here. Use an empty string for no symbol.
   symbol: '$'
-  # true -> "$ 12.01k"; false -> "$12.01k"
+  # true -> "$ 12.01K"; false -> "$12.01K"
   space-after-symbol: true
   # Number of digits after the decimal for abbreviated numbers and regular balances.
   decimal-places: 2
@@ -16,8 +16,10 @@ format:
   trim-trailing-zeros: true
   # Amounts >= 1000 use suffixes. This only affects display, not actual balances.
   abbreviate: true
+  # Convert configured suffixes to uppercase. This also upgrades old lowercase configs automatically.
+  uppercase-suffixes: true
   # Suffixes in ascending powers of 1,000: thousand, million, billion, trillion, etc.
-  suffixes: [k, m, b, t, q, qq]
+  suffixes: [K, M, B, T, Q, QQ]
   # These apply to full values and any displayed values below 1,000.
   grouping-separator: ','
   decimal-separator: '.'
